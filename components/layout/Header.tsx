@@ -17,7 +17,13 @@ const sectionTitles: Record<string, string> = {
   payslips: 'Payslips',
   benefits: 'Benefits & Insurance',
   team: 'Team Management',
+  reimbursements: 'Reimbursements',
+  helpdesk: 'Help Desk',
+  appreciate: 'Appreciate',
+  learning: 'Learning & Training',
+  announcements: 'Announcements',
 }
+
 
 export default function Header({ currentSection }: HeaderProps) {
   return (
