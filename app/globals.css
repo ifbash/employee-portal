@@ -2,41 +2,212 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =================== BRAND TOKENS & GRADIENTS =================== */
 :root {
-  --color-primary: #32B8C6;
-  --color-primary-hover: #2DA6B2;
-  --color-primary-active: #1A6873;
-  --color-bg-primary: #FCFCF9;
-  --color-bg-secondary: #FFFFFF;
-  --color-text-primary: #1F2121;
-  --color-text-secondary: #626C71;
-  --color-border: rgba(94, 82, 64, 0.2);
+  /* Palette */
+  --primary: 263 70% 50.4%;
+  --primary-rgb: 106, 40, 217;
+  --primary-2: 192,243,255;
+  --primary-3: 38,163,217;
+  --turquoise: 50, 184, 198;
+  --blue: 96, 165, 250;
+  --lavender: 167, 139, 250;
+  --brand-gradient: linear-gradient(90deg, #60a5fa 0%, #32B8C6 50%, #a78bfa 100%);
+  --sidebar-gradient: linear-gradient(90deg, #60a5fa 0%, #a78bfa 100%);
+  --card-gradient: linear-gradient(145deg, hsl(222, 84%, 4%) 0%, hsl(215, 28%, 17%) 100%);
+  
+  /* Surfaces */
+  --background: hsl(220, 26%, 14%);
+  --background-light: #f6fafb;
+  --background-2: #fcfcf9;
+  --foreground: hsl(213, 31%, 91%);
+  --card: hsl(222, 84%, 5%);
+  --card-foreground: hsl(213, 31%, 91%);
+  --popover: hsl(222, 84%, 5%);
+  --popover-foreground: hsl(213, 31%, 91%);
+  
+  /* Borders & Radius */
+  --border: hsl(215, 28%, 18%);
+  --radius: 0.5rem;
+
+  /* Shadows */
+  --shadow-card: 0 3px 14px 0 hsla(221, 83%, 53%, 0.08);
+  --shadow-card-hover: 0 4px 24px 0 hsla(221, 83%, 53%, 0.12);
+  --shadow-glow: 0 0 20px hsla(221, 83%, 53%, 0.4);
+
+  /* Text */
+  --text-main: #21333A;
+  --text-accent: #168087;
+  --text-muted: #74959A;
+  --text-secondary: #828b99;
+  --text-link: #197882;
+  --text-link-hover: #2DA6B2;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg-primary: #1F2121;
-    --color-bg-secondary: #262828;
-    --color-text-primary: #F5F5F5;
-    --color-text-secondary: #A7A9A9;
-    --color-border: rgba(167, 169, 169, 0.3);
+    --background: hsl(220,26%,14%);
+    --background-light: #181E2D;
+    --card: hsl(215, 28%, 17%);
+    --popover: hsl(215, 28%, 17%);
+    --foreground: #F4F4F4;
+    --text-main: #F4F4F4;
+    --text-muted: #A5BFC6;
+    --brand-gradient: linear-gradient(90deg, #2DA6B2 0%, #664fa5 100%);
+    --sidebar-gradient: linear-gradient(90deg, #2DA6B2 0%, #664fa5 100%);
+    --shadow-card: 0 3px 24px 0 rgba(50,184,198,0.12);
+    --shadow-card-hover: 0 5px 32px 0 rgba(50,184,198,0.22);
   }
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+/* =================== BASE ELEMENT STYLES =================== */
+@layer base {
+  html {
+    font-family: 'Nunito Sans', 'Akkurat', 'Inter', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+    background: var(--background-light);
+  }
+  body {
+    background: var(--background-light);
+    color: var(--text-main);
+    min-height: 100vh;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    transition: background 0.25s;
+  }
+  /* FIXED PART: Removed @apply border-border! */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--border);
+    margin: 0;
+    padding: 0;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--primary, #32B8C6);
+    font-family: inherit;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  a {
+    color: var(--text-link);
+    font-weight: 500;
+    transition: color 0.18s;
+    text-underline-offset: 2px;
+    text-decoration: none;
+  }
+  a:hover,
+  a:active {
+    color: var(--text-link-hover, #2DA6B2);
+    text-decoration: underline;
+  }
+  .card, .card-surface {
+    background: var(--card-gradient, #fff);
+    border-radius: var(--radius, 0.5rem);
+    box-shadow: var(--shadow-card);
+    border: 1.5px solid var(--border);
+    padding: 2rem;
+    transition: box-shadow 0.18s, background 0.22s;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4rem;
+    z-index: 50;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  input, select, textarea {
+    border-radius: var(--radius);
+    background: var(--card-foreground, #fff);
+    border: 1.2px solid var(--border);
+    color: var(--text-main);
+    padding: 0.5em 1em;
+    font-size: 1em;
+    transition: border-color 0.15s, background 0.18s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-active, #1A6873);
+    background: var(--background-light);
+  }
 }
 
-body {
-  color: var(--color-text-primary);
-  background: var(--color-bg-primary);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+/* =================== CTA BUTTONS =================== */
+.button,
+button,
+[type="button"] {
+  background: var(--brand-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius, 0.5rem);
+  font-weight: 600;
+  font-size: 1.03rem;
+  letter-spacing: 0.02em;
+  padding: 0.75em 2em;
+  cursor: pointer;
+  box-shadow: 0 4px 18px 0 rgba(50,184,198,0.10);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.09s;
+}
+.button:hover,
+button:hover,
+[type="button"]:hover {
+  background: linear-gradient(90deg, #32B8C6 45%, #a78bfa 100%);
+  box-shadow: 0 6px 28px 0 rgba(50,184,198,0.20);
+  transform: translateY(-1px) scale(1.03);
 }
 
+/* =================== THEMED SECTIONS & UTILITIES =================== */
+.sidebar-gradient {
+  background: var(--sidebar-gradient);
+}
+.hero-gradient {
+  background: var(--brand-gradient);
+  color: var(--card-foreground);
+}
+.moondust-card {
+  background: var(--card-gradient);
+  border: 1px solid var(--border);
+}
+.moondust-glow {
+  box-shadow: var(--shadow-glow);
+}
+.text-gradient {
+  background: linear-gradient(90deg, #60a5fa, #32B8C6, #a78bfa 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* =================== ANIMATION UTILITIES =================== */
 @layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+/* =================== RESPONSIVE ENHANCEMENTS =================== */
+@media (max-width: 640px) {
+  .width-sm-fix {
+    width: 97vw;
+    margin: 0 auto;
   }
 }
