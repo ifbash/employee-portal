@@ -11,6 +11,12 @@ import TimesheetTable from '@/components/timesheet/TimesheetTable'
 import PayslipTable from '@/components/payslips/PayslipTable'
 import BenefitsGrid from '@/components/benefits/BenefitsGrid'
 import TeamOverview from '@/components/team/TeamOverview'
+import ReimbursementList from '@/components/reimbursements/ReimbursementList'
+import TicketList from '@/components/helpdesk/TicketList'
+import AppreciationWall from '@/components/appreciate/AppreciationWall'
+import CourseGrid from '@/components/learning/CourseGrid'
+import AnnouncementList from '@/components/announcements/AnnouncementList'
+
 
 
 export default function Home() {
@@ -34,6 +40,16 @@ export default function Home() {
         return <BenefitsGrid />
       case 'team':
         return <TeamOverview />
+    case 'reimbursements':
+      return <ReimbursementList />
+    case 'helpdesk':
+      return <TicketList />
+    case 'appreciate':
+      return <AppreciationWall />
+    case 'learning':
+      return <CourseGrid />
+    case 'announcements':
+      return <AnnouncementList />
       default:
         return <Dashboard />
     }
