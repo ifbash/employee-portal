@@ -1,18 +1,21 @@
-import { ReactNode } from 'react'
+import React from 'react';
 
-interface CardProps {
-  children: ReactNode
-  className?: string
-  onClick?: () => void
-}
+// 1. Export CardProps.
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export default function Card({ children, className = '', onClick }: CardProps) {
-  return (
-    <div 
-      className={`bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow ${onClick ? 'cursor-pointer' : ''} ${className}`}
-      onClick={onClick}
-    >
-      {children}
-    </div>
+// 2. Card component.
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className = '', ...props }, ref) => (
+    <div
+      ref={ref}
+      className={`rounded-lg bg-white shadow-md dark:bg-slate-800 ${className}`}
+      {...props}
+    />
   )
-}
+);
+
+// 3. Assign display name for debugging.
+Card.displayName = 'Card';
+
+// 4. Export both Card (default) and CardProps (named).
+export default Card;

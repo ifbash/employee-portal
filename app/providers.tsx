@@ -1,17 +1,30 @@
 // lib/providers.tsx
 'use client'
 
-import { ReactNode } from 'react'
-import { RoleProvider } from './context/RoleContext'
+import React, { createContext, useContext, useState, ReactNode } from 'react'
 
-interface ProvidersProps {
-  children: ReactNode
+type Role = 'guest' | 'user' | 'admin'
+
+interface RoleContextType {
+  role: Role
+  setRole: (r: Role) => void
 }
 
-export default function Providers({ children }: ProvidersProps) {
+const RoleContext = createContext<RoleContextType | undefined>(undefined)
+
+export function RoleProvider({ children }: { children: ReactNode }) {
+  const [role, setRole] = useState<Role>('guest')
+
   return (
-    <RoleProvider>
+    <RoleContext.Provider value={{ role, setRole }}>
       {children}
-    </RoleProvider>
+    </RoleContext.Provider>
   )
 }
+
+export function useRole() {
+  const ctx = useContext(RoleContext)
+  if (!ctx) throw new Error('useRole must be used within RoleProvider')
+  return ctx
+}
+ 

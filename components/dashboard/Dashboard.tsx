@@ -1,6 +1,7 @@
 'use client'
  
-import { useRole } from '@/lib/context/RoleContext'
+
+import { useRole } from '@/lib/hooks/useRole'
 import Card from '../ui/Card'
 import { Calendar, Clock, DollarSign, Heart, TrendingUp, AlertCircle, Users } from 'lucide-react'
  

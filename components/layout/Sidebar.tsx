@@ -2,9 +2,7 @@
 'use client'
 
 import { FileText, Calendar, Clock, DollarSign, Heart, Users, LayoutDashboard, BookOpen, Headphones, Award, GraduationCap, Megaphone, Receipt } from 'lucide-react'
-import { useRole } from '@/lib/context/RoleContext'
-
-
+import { useRole } from '@/lib/hooks/useRole'
 
 interface SidebarProps {
   currentSection: string

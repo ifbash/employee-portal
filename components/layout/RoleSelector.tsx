@@ -1,7 +1,7 @@
 // components/layout/RoleSelector.tsx
 'use client'
 
-import { useRole } from '@/lib/context/RoleContext'
+import { useRole } from '@/lib/hooks/useRole'
 
 export default function RoleSelector() {
   const { role, setRole } = useRole()

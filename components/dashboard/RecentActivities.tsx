@@ -1,22 +1,15 @@
 'use client'
-
 import React from 'react'
-import { Card, CardProps } from '@/components/ui/Card'
-import { activityFeed } from '@/lib/mockData' // optional: replace with real data source
-import { Clock, Calendar, MessageSquare, User } from 'lucide-react'
+import Card from '@/components/ui/Card'
+import type { CardProps } from '@/components/ui/Card'
 
-type Activity = {
-  id: string
-  type: 'login' | 'document' | 'leave' | 'timesheet' | 'message' | 'policy'
-  timestamp: string // ISO string
-  user: string
-  summary: string
-  avatarUrl?: string
-}
+import { activityFeed, Activity } from '@/lib/mockData'
+import { Clock, Calendar, MessageSquare, User } from 'lucide-react'
 
 interface RecentActivitiesProps extends CardProps {
   limit?: number
   title?: string
+  className?: string
 }
 
 function formatTimeAgo(iso: string): string {
@@ -55,10 +48,8 @@ export default function RecentActivities({
   className = '',
   ...rest
 }: RecentActivitiesProps) {
-  // If you have a real data source, replace the mock data with a fetch/context source.
-  const activities: Activity[] = (activityFeed as Activity[])?.slice(0, limit) ?? []
+  const activities = activityFeed.slice(0, limit)
 
-  // Fallback if no data provided
   const items = activities.length
     ? activities
     : [
@@ -72,7 +63,7 @@ export default function RecentActivities({
       ]
 
   return (
-    <Card className={`p-4 ${className}`} {...rest}>
+    <Card className={`p-4 ${className || ''}`} {...rest}>
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-semibold text-gray-800 dark:text-slate-100">{title}</h3>
         <span className="text-xs text-gray-500 dark:text-slate-400">
@@ -83,7 +74,7 @@ export default function RecentActivities({
         {items.map((a) => (
           <li key={a.id} className="flex items-start py-3">
             <div className="flex-shrink-0 mr-3 w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center">
-              {iconForType(a.type)}
+              {iconForType(a.type as Activity['type'])}
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between">

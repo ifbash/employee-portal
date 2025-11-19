@@ -102,7 +102,7 @@ export default function LeaveList() {
       {leaveRequests.length === 0 && (
         <div className="text-center py-8 text-gray-500 dark:text-slate-400">
           <p>No leave requests found</p>
-          <p className="text-sm mt-2">Click "Request Leave" to submit a new request</p>
+          <p className="text-sm mt-2">Click Request Leave to submit a new request</p>
         </div>
       )}
     </Card>

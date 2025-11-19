@@ -1,78 +1,66 @@
 'use client'
+import React, { useState } from 'react'
 
-import { useState } from 'react'
-import { reimbursements } from '@/lib/data/reimbursements'
-import Card from '../ui/Card'
-import Button from '../ui/Button'
-import ReimbursementModal from './ReimbursementModal'
-import { Plus, Receipt } from 'lucide-react'
+interface ReimbursementModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
 
-export default function ReimbursementList() {
-  const [showModal, setShowModal] = useState(false)
-  const currentEmployeeId = 'EMP-2024-001'
-  const myReimbursements = reimbursements.filter(r => r.employeeId === currentEmployeeId)
+export default function ReimbursementModal({ isOpen, onClose }: ReimbursementModalProps) {
+  const [form, setForm] = useState({
+    date: '',
+    type: 'travel',
+    description: '',
+    amount: ''
+  })
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'approved':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-      case 'rejected':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-      case 'paid':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
+  // hides the modal if closed
+  if (!isOpen) return null
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const { name, value } = e.target
+    setForm(prev => ({ ...prev, [name]: value }))
   }
 
-  const formatAmount = (amount: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    // Here you can handle submit, push to context, or call an API
+    alert('Claim submitted: ' + JSON.stringify(form, null, 2))
+    onClose()
   }
 
   return (
-    <div>
-      <Card>
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xl font-semibold">My Reimbursements</h3>
-          <Button onClick={() => setShowModal(true)}>
-            <Plus size={16} className="mr-2" />
-            Submit Claim
-          </Button>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b dark:border-slate-700">
-                <th className="text-left py-3 px-4 font-semibold text-sm">Date</th>
-                <th className="text-left py-3 px-4 font-semibold text-sm">Type</th>
-                <th className="text-left py-3 px-4 font-semibold text-sm">Description</th>
-                <th className="text-left py-3 px-4 font-semibold text-sm">Amount</th>
-                <th className="text-left py-3 px-4 font-semibold text-sm">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {myReimbursements.map((reimbursement) => (
-                <tr key={reimbursement.id} className="border-b dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700">
-                  <td className="py-3 px-4">{reimbursement.date}</td>
-                  <td className="py-3 px-4 capitalize">{reimbursement.type}</td>
-                  <td className="py-3 px-4">{reimbursement.description}</td>
-                  <td className="py-3 px-4 font-semibold">{formatAmount(reimbursement.amount)}</td>
-                  <td className="py-3 px-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(reimbursement.status)}`}>
-                      {reimbursement.status.charAt(0).toUpperCase() + reimbursement.status.slice(1)}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Card>
-
-      <ReimbursementModal isOpen={showModal} onClose={() => setShowModal(false)} />
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-lg max-w-sm w-full shadow-lg z-10">
+        <h3 className="text-lg font-semibold mb-4">New Reimbursement Claim</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="block text-sm font-medium mb-1">Date</label>
+            <input type="date" name="date" value={form.date} onChange={handleChange} className="border p-2 rounded w-full" required />
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium mb-1">Type</label>
+            <select name="type" value={form.type} onChange={handleChange} className="border p-2 rounded w-full">
+              <option value="travel">Travel</option>
+              <option value="food">Food</option>
+              <option value="equipment">Equipment</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium mb-1">Description</label>
+            <input name="description" value={form.description} onChange={handleChange} className="border p-2 rounded w-full" required />
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium mb-1">Amount</label>
+            <input name="amount" type="number" min={0} value={form.amount} onChange={handleChange} className="border p-2 rounded w-full" required />
+          </div>
+          <div className="flex gap-2 pt-2">
+            <button type="submit" className="button bg-green-600 text-white rounded px-4 py-2">Submit</button>
+            <button type="button" className="button bg-gray-300 rounded px-4 py-2" onClick={onClose}>Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

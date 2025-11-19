@@ -2,7 +2,8 @@
 'use client'
 
 import Card from '../ui/Card'
-import { useRole } from '@/lib/context/RoleContext'
+import { useRole } from '@/lib/hooks/useRole'
+
 
 interface StatCard {
   title: string

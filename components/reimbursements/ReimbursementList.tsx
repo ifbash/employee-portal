@@ -1,11 +1,10 @@
 'use client'
-
 import { useState } from 'react'
 import { reimbursements } from '@/lib/data/reimbursements'
 import Card from '../ui/Card'
-import Button from '../ui/Button'
+import Button from '../ui/Button' // Or replace with <button ...>
 import ReimbursementModal from './ReimbursementModal'
-import { Plus, Receipt } from 'lucide-react'
+import { Plus } from 'lucide-react'
 
 export default function ReimbursementList() {
   const [showModal, setShowModal] = useState(false)
@@ -27,9 +26,8 @@ export default function ReimbursementList() {
     }
   }
 
-  const formatAmount = (amount: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
-  }
+  const formatAmount = (amount: number) =>
+    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
 
   return (
     <div>
@@ -59,7 +57,9 @@ export default function ReimbursementList() {
                   <td className="py-3 px-4">{reimbursement.date}</td>
                   <td className="py-3 px-4 capitalize">{reimbursement.type}</td>
                   <td className="py-3 px-4">{reimbursement.description}</td>
-                  <td className="py-3 px-4 font-semibold">{formatAmount(reimbursement.amount)}</td>
+                  <td className="py-3 px-4 font-semibold">
+                    {formatAmount(reimbursement.amount)}
+                  </td>
                   <td className="py-3 px-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(reimbursement.status)}`}>
                       {reimbursement.status.charAt(0).toUpperCase() + reimbursement.status.slice(1)}
@@ -71,7 +71,6 @@ export default function ReimbursementList() {
           </table>
         </div>
       </Card>
-
       <ReimbursementModal isOpen={showModal} onClose={() => setShowModal(false)} />
     </div>
   )

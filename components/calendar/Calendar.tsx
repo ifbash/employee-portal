@@ -68,7 +68,7 @@ export default function Calendar() {
           </div>
           <div className="p-3 bg-gray-50 dark:bg-slate-700 rounded-lg">
             <div className="font-semibold">Dec 31, 2025</div>
-            <div className="text-sm text-gray-600 dark:text-slate-400">New Year's Eve</div>
+            <div className="text-sm text-gray-600 dark:text-slate-400">New Years Eve</div>
             <div className="mt-2">
               <span className="px-3 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-full text-xs">
                 Pending
