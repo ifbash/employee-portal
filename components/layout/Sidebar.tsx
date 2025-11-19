@@ -1,8 +1,10 @@
 // components/layout/Sidebar.tsx
 'use client'
 
-import { FileText, Calendar, Clock, DollarSign, Heart, Users, LayoutDashboard, BookOpen } from 'lucide-react'
+import { FileText, Calendar, Clock, DollarSign, Heart, Users, LayoutDashboard, BookOpen, Headphones, Award, GraduationCap, Megaphone, Receipt } from 'lucide-react'
 import { useRole } from '@/lib/context/RoleContext'
+
+
 
 interface SidebarProps {
   currentSection: string
@@ -12,14 +14,20 @@ interface SidebarProps {
 export default function Sidebar({ currentSection, onSectionChange }: SidebarProps) {
   const { role } = useRole()
 
+
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'documents', label: 'Employee Documents', icon: FileText },
-    { id: 'policies', label: 'HR Policies', icon: BookOpen },
-    { id: 'calendar', label: 'Calendar & Leave', icon: Calendar },
-    { id: 'timesheet', label: 'Timesheet', icon: Clock },
-    { id: 'payslips', label: 'Payslips', icon: DollarSign },
-    { id: 'benefits', label: 'Benefits & Insurance', icon: Heart },
+{ id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+{ id: 'documents', label: 'Employee Documents', icon: FileText },
+{ id: 'policies', label: 'HR Policies', icon: BookOpen },
+{ id: 'calendar', label: 'Calendar & Leave', icon: Calendar },
+{ id: 'timesheet', label: 'Timesheet', icon: Clock },
+{ id: 'payslips', label: 'Payslips', icon: DollarSign },
+{ id: 'benefits', label: 'Benefits & Insurance', icon: Heart },
+{ id: 'reimbursements', label: 'Reimbursements', icon: Receipt },
+{ id: 'helpdesk', label: 'Help Desk', icon: Headphones },
+{ id: 'appreciate', label: 'Appreciate', icon: Award },
+{ id: 'learning', label: 'Learning & Training', icon: GraduationCap },
+{ id: 'announcements', label: 'Announcements', icon: Megaphone },
   ]
 
   const managerItems = [

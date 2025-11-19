@@ -12,6 +12,7 @@ import PayslipTable from '@/components/payslips/PayslipTable'
 import BenefitsGrid from '@/components/benefits/BenefitsGrid'
 import TeamOverview from '@/components/team/TeamOverview'
 
+
 export default function Home() {
   const [currentSection, setCurrentSection] = useState('dashboard')
 
