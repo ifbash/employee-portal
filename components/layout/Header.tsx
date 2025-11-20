@@ -1,94 +1,60 @@
 'use client'
-
-import { Bell, Moon, Sun, Menu, ChevronLeft, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
+import { Bell, Sun, Moon, AppWindow, User } from 'lucide-react'
 import { useRole } from '@/lib/context/RoleContext'
 import { useState } from 'react'
 
 interface HeaderProps {
+  onAllAppsClick: () => void
   currentSection: string
-  onMenuClick: () => void
-  isSidebarCollapsed: boolean
-  onSidebarCollapseToggle: () => void
 }
 
-const sectionTitles: Record<string, string> = {
-  dashboard: 'Dashboard',
-  documents: 'Employee Documents Hub',
-  policies: 'HR Policies & Knowledge Base',
-  calendar: 'Calendar & Leave Management',
-  timesheet: 'Timesheet',
-  payslips: 'Payslips',
-  benefits: 'Benefits & Insurance',
-  team: 'Team Management',
-  reimbursements: 'Reimbursements',
-  helpdesk: 'Help Desk',
-  appreciate: 'Appreciate',
-  learning: 'Learning & Training',
-  announcements: 'Announcements',
-}
-
-export default function Header({
-  currentSection,
-  onMenuClick,
-  isSidebarCollapsed,
-  onSidebarCollapseToggle
-}: HeaderProps) {
+export default function Header({ onAllAppsClick, currentSection }: HeaderProps) {
   const { role, setRole } = useRole()
   const [isDark, setIsDark] = useState(false)
-
   const toggleTheme = () => {
-    setIsDark(!isDark)
+    setIsDark(v => !v)
     document.documentElement.classList.toggle('dark')
   }
 
   return (
-    <header className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 px-6 py-4 sticky top-0 z-30">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          {/* Collapse button (desktop only) */}
+    <header className="sticky top-0 z-30 w-full border-b border-slate-200 bg-white/95 dark:bg-slate-900/80 backdrop-blur supports-[backdrop-filter]:bg-white/85 transition">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-[56px] px-4">
+        {/* Logo + All Apps button */}
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex-shrink-0">
+            <img src="/images/logo.png" alt="Company Logo" className="h-10 w-auto" />
+          </Link>
           <button
-            className="hidden lg:inline-flex p-2 mr-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg"
-            aria-label="Collapse/expand sidebar"
-            onClick={onSidebarCollapseToggle}
+            className="rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none"
+            aria-label="Open App Navigator"
+            onClick={onAllAppsClick}
+            title="All Applications"
           >
-            {isSidebarCollapsed ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
+            <AppWindow size={24} className="text-violet-700" />
           </button>
-          {/* Hamburger (mobile) */}
-          <button
-            onClick={onMenuClick}
-            className="inline-flex lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg"
-            aria-label="Open menu"
-          >
-            <Menu size={24} />
-          </button>
-          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-            {sectionTitles[currentSection] || 'Dashboard'}
-          </h2>
+          <div className="ml-4 text-2xl font-bold text-transparent bg-gradient-to-r from-violet-700 via-blue-600 to-cyan-600 bg-clip-text">
+            {currentSection}
+          </div>
         </div>
-        <div className="flex items-center gap-4">
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value as 'employee' | 'manager' | 'hr')}
-            className="px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
-          >
-            <option value="employee">View as: Employee</option>
-            <option value="manager">View as: Manager</option>
-            <option value="hr">View as: HR</option>
-          </select>
+        {/* Right menu */}
+        <div className="flex items-center gap-3">
           <button
             onClick={toggleTheme}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg"
+            className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
             aria-label="Toggle theme"
           >
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          <button
-            className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg relative"
-            aria-label="Notifications"
-          >
+          <button className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 relative">
             <Bell size={20} />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
           </button>
+          <div className="ml-3">
+            <button className="h-9 w-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center border border-slate-200 dark:border-slate-600">
+              <User size={20} className="text-slate-500" />
+            </button>
+          </div>
         </div>
       </div>
     </header>
