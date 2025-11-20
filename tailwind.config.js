@@ -1,3 +1,4 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -31,6 +32,10 @@ module.exports = {
       },
       fontFamily: {
         sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+      },
+      margin: {
+        '64': '16rem', // sidebar expanded width
+        '16': '4rem',  // sidebar collapsed width
       },
     },
   },

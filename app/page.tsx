@@ -22,37 +22,24 @@ export default function Home() {
   const { role } = useRole()
   const [currentSection, setCurrentSection] = useState('dashboard')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
   const renderSection = () => {
     switch (currentSection) {
-      case 'dashboard':
-        return <Dashboard />
-      case 'documents':
-        return <DocumentList />
-      case 'policies':
-        return <PolicyGrid />
-      case 'calendar':
-        return <Calendar />
-      case 'timesheet':
-        return <TimesheetTable />
-      case 'payslips':
-        return <PayslipTable />
-      case 'benefits':
-        return <BenefitsGrid />
-      case 'team':
-        return <TeamOverview />
-      case 'reimbursements':
-        return <ReimbursementList />
-      case 'helpdesk':
-        return <TicketList />
-      case 'appreciate':
-        return <AppreciationWall />
-      case 'learning':
-        return <CourseGrid />
-      case 'announcements':
-        return <AnnouncementList />
-      default:
-        return <Dashboard />
+      case 'dashboard':       return <Dashboard />
+      case 'documents':       return <DocumentList />
+      case 'policies':        return <PolicyGrid />
+      case 'calendar':        return <Calendar />
+      case 'timesheet':       return <TimesheetTable />
+      case 'payslips':        return <PayslipTable />
+      case 'benefits':        return <BenefitsGrid />
+      case 'team':            return <TeamOverview />
+      case 'reimbursements':  return <ReimbursementList />
+      case 'helpdesk':        return <TicketList />
+      case 'appreciate':      return <AppreciationWall />
+      case 'learning':        return <CourseGrid />
+      case 'announcements':   return <AnnouncementList />
+      default:                return <Dashboard />
     }
   }
 
@@ -63,16 +50,17 @@ export default function Home() {
         onSectionChange={setCurrentSection}
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
+        isCollapsed={isSidebarCollapsed}
       />
-      
-      <Header 
-        currentSection={currentSection} 
-        onMenuClick={() => setIsMenuOpen(true)}
-      />
-      
-      <main className="p-8">
-        {renderSection()}
-      </main>
+      <div className={`transition-all duration-300 ${isSidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'} ml-0`}>
+        <Header
+          currentSection={currentSection}
+          onMenuClick={() => setIsMenuOpen(true)}
+          isSidebarCollapsed={isSidebarCollapsed}
+          onSidebarCollapseToggle={() => setIsSidebarCollapsed((v) => !v)}
+        />
+        <main className="p-8">{renderSection()}</main>
+      </div>
     </div>
   )
 }
