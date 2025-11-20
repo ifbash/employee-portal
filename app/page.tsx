@@ -1,5 +1,6 @@
 'use client'
 
+import { useRole } from '@/lib/context/RoleContext'
 import { useState } from 'react'
 import Sidebar from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
@@ -18,8 +19,9 @@ import CourseGrid from '@/components/learning/CourseGrid'
 import AnnouncementList from '@/components/announcements/AnnouncementList'
 
 export default function Home() {
+  const { role } = useRole()
   const [currentSection, setCurrentSection] = useState('dashboard')
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const renderSection = () => {
     switch (currentSection) {
@@ -55,52 +57,22 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background-light dark:bg-background">
-      {/* Mobile Sidebar Overlay */}
-      <Sidebar
-        currentSection={currentSection}
-        onSectionChange={(id) => {
-          setCurrentSection(id)
-          setSidebarOpen(false)
-        }}
-        // Show only on mobile
-        className={`fixed z-40 top-0 left-0 h-full md:hidden 
-            transition-transform duration-200
-            ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-          `}
-      />
-      {/* Desktop Sidebar */}
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
       <Sidebar
         currentSection={currentSection}
         onSectionChange={setCurrentSection}
-        className="hidden md:block fixed left-0 top-0 h-screen w-56 z-30" // matches ml-56 below
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
       />
-
-      {/* Main content and header */}
-      <div className="flex-1 flex flex-col min-h-screen md:ml-56 transition-all">
-        <Header
-          currentSection={currentSection}
-          onHamburger={() => setSidebarOpen(!sidebarOpen)}
-        />
-        <main
-          className="
-            w-full max-w-6xl mx-auto flex-1 px-3 pt-5 pb-12 md:px-8 md:pt-10 md:pb-0
-            bg-cream-50 dark:bg-slate-900
-            transition-colors duration-150
-          "
-          role="main"
-          aria-labelledby="main-header"
-        >
-          {renderSection()}
-        </main>
-      </div>
-      {/* Page overlay when sidebar is open (mobile), for click-outside close */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/30 backdrop-blur-sm block md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+      
+      <Header 
+        currentSection={currentSection} 
+        onMenuClick={() => setIsMenuOpen(true)}
+      />
+      
+      <main className="p-8">
+        {renderSection()}
+      </main>
     </div>
   )
 }

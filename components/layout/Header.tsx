@@ -1,7 +1,13 @@
 'use client'
 
-import { Bell } from 'lucide-react'
-import RoleSelector from './RoleSelector'
+import { Bell, Moon, Sun, Menu } from 'lucide-react'
+import { useRole } from '@/lib/context/RoleContext'
+import { useState } from 'react'
+
+interface HeaderProps {
+  currentSection: string
+  onMenuClick: () => void
+}
 
 const sectionTitles: Record<string, string> = {
   dashboard: 'Dashboard',
@@ -19,55 +25,63 @@ const sectionTitles: Record<string, string> = {
   announcements: 'Announcements',
 }
 
-export default function Header({ currentSection, onHamburger }: { currentSection: string, onHamburger?: () => void }) {
+export default function Header({ currentSection, onMenuClick }: HeaderProps) {
+  const { role, setRole } = useRole()
+  const [isDark, setIsDark] = useState(false)
+
+  const toggleTheme = () => {
+    setIsDark(!isDark)
+    document.documentElement.classList.toggle('dark')
+  }
+
   return (
-    <header
-      className="
-        sticky top-0 z-30
-        px-3 md:px-8 py-4
-        flex justify-between items-center
-        bg-gradient-to-r from-[#60a5fa] via-[#32B8C6] to-[#a78bfa]
-        shadow-lg
-        mb-0
-      "
-      id="main-header"
-    >
-      <div className="flex items-center gap-3">
-        {/* Hamburger (mobile) */}
-        {onHamburger && (
+    <header className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 px-6 py-4 sticky top-0 z-30">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {/* Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg text-white focus:outline-none"
-            onClick={onHamburger}
-            aria-label="Open sidebar"
+            onClick={onMenuClick}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+            aria-label="Open menu"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+            <Menu size={24} />
           </button>
-        )}
-        <h1 className="
-          text-xl md:text-3xl font-extrabold text-white drop-shadow-lg tracking-tighter
-          select-none font-[Nunito_Sans,sans-serif] truncate whitespace-nowrap
-        ">
-          {sectionTitles[currentSection] || ''}
-        </h1>
-      </div>
-      <div className="flex items-center gap-3 md:gap-4">
-        <RoleSelector />
-        <button
-          className="
-            relative flex items-center gap-2 px-3 py-2
-            bg-white/10 text-white rounded-xl hover:bg-white/20
-            transition-colors shadow
-          "
-          aria-label="View notifications"
-        >
-          <Bell size={20} />
-          <span className="hidden sm:inline font-medium">Notifications</span>
-          <span className="absolute -top-2 -right-2 bg-white text-brand rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold border border-brand/10 shadow">
-            3
-          </span>
-        </button>
+          
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+            {sectionTitles[currentSection] || 'Dashboard'}
+          </h2>
+        </div>
+
+        <div className="flex items-center gap-4">
+          {/* Role Selector */}
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value as 'employee' | 'manager' | 'hr')}
+            className="px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
+          >
+            <option value="employee">View as: Employee</option>
+            <option value="manager">View as: Manager</option>
+            <option value="hr">View as: HR</option>
+          </select>
+
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+
+          {/* Notifications */}
+          <button
+            className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg relative"
+            aria-label="Notifications"
+          >
+            <Bell size={20} />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+        </div>
       </div>
     </header>
   )

@@ -22,3 +22,5 @@ export function RoleProvider({ children }: { children: ReactNode }) {
     </RoleContext.Provider>
   )
 }
+
+export { useRole }
