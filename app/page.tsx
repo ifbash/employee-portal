@@ -1,6 +1,7 @@
 'use client'
+
 import { useState } from 'react'
-import Header from '@/components/layout/Header'
+import ModernHeader from '@/components/layout/ModernHeader'
 import Dashboard from '@/components/dashboard/Dashboard'
 import DocumentList from '@/components/documents/DocumentList'
 import PolicyGrid from '@/components/policies/PolicyGrid'
@@ -15,51 +16,52 @@ import AppreciationWall from '@/components/appreciate/AppreciationWall'
 import CourseGrid from '@/components/learning/CourseGrid'
 import AnnouncementList from '@/components/announcements/AnnouncementList'
 
-const sectionTitles = {
-  dashboard: 'Dashboard',
-  documents: 'Employee Documents Hub',
-  policies: 'HR Policies & Knowledge Base',
-  calendar: 'Calendar & Leave Management',
-  timesheet: 'Timesheet',
-  payslips: 'Payslips',
-  benefits: 'Benefits & Insurance',
-  team: 'Team Management',
-  reimbursements: 'Reimbursements',
-  helpdesk: 'Help Desk',
-  appreciate: 'Appreciate',
-  learning: 'Learning & Training',
-  announcements: 'Announcements'
-  // Add other mappings as needed
-}
-
-export default function Page() {
+export default function Home() {
   const [currentSection, setCurrentSection] = useState('dashboard')
 
   const renderSection = () => {
     switch (currentSection) {
-      case 'dashboard':       return <Dashboard />
-      case 'documents':       return <DocumentList />
-      case 'policies':        return <PolicyGrid />
-      case 'calendar':        return <Calendar />
-      case 'timesheet':       return <TimesheetTable />
-      case 'payslips':        return <PayslipTable />
-      case 'benefits':        return <BenefitsGrid />
-      case 'team':            return <TeamOverview />
-      case 'reimbursements':  return <ReimbursementList />
-      case 'helpdesk':        return <TicketList />
-      case 'appreciate':      return <AppreciationWall />
-      case 'learning':        return <CourseGrid />
-      case 'announcements':   return <AnnouncementList />
-      default:                return <Dashboard />
+      case 'dashboard':
+        return <Dashboard />
+      case 'documents':
+        return <DocumentList />
+      case 'policies':
+        return <PolicyGrid />
+      case 'calendar':
+        return <Calendar />
+      case 'timesheet':
+        return <TimesheetTable />
+      case 'payslips':
+        return <PayslipTable />
+      case 'benefits':
+        return <BenefitsGrid />
+      case 'team':
+        return <TeamOverview />
+      case 'reimbursements':
+        return <ReimbursementList />
+      case 'helpdesk':
+        return <TicketList />
+      case 'appreciate':
+        return <AppreciationWall />
+      case 'learning':
+        return <CourseGrid />
+      case 'announcements':
+        return <AnnouncementList />
+      default:
+        return <Dashboard />
     }
   }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
-      <Header currentSection={sectionTitles[currentSection] || currentSection} />
-      <div className="transition-all duration-300 pt-14">
-        <main className="p-8">{renderSection()}</main>
-      </div>
+      <ModernHeader 
+        currentSection={currentSection} 
+        onSectionChange={setCurrentSection}
+      />
+      
+      <main className="px-8 py-6">
+        {renderSection()}
+      </main>
     </div>
   )
 }

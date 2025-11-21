@@ -12,7 +12,7 @@
   --turquoise: 50, 184, 198;
   --blue: 96, 165, 250;
   --lavender: 167, 139, 250;
-  --brand-gradient: linear-gradient(90deg, #60a5fa 0%, #32B8C6 50%, #a78bfa 100%);
+  /*--brand-gradient: linear-gradient(90deg, #60a5fa 0%, #32B8C6 50%, #a78bfa 100%);*/
   --sidebar-gradient: linear-gradient(90deg, #60a5fa 0%, #a78bfa 100%);
   --card-gradient: linear-gradient(145deg, hsl(222, 84%, 4%) 0%, hsl(215, 28%, 17%) 100%);
   
@@ -163,7 +163,8 @@ button,
 .button:hover,
 button:hover,
 [type="button"]:hover {
-  background: linear-gradient(90deg, #32B8C6 45%, #a78bfa 100%);
+  
+  background: linear-gradient(90deg, #2DA6B2 0%, #664fa5 100%);
   box-shadow: 0 6px 28px 0 rgba(50,184,198,0.20);
   transform: translateY(-1px) scale(1.03);
 }
@@ -211,3 +212,18 @@ button:hover,
     margin: 0 auto;
   }
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
