@@ -2,17 +2,18 @@
 
 import { useRole } from '@/lib/hooks/useRole'
 import { Calendar, Clock, DollarSign, Heart, TrendingUp, AlertCircle, Users } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function Dashboard() {
   const { role } = useRole()
-
+  const router = useRouter()
   // Quick Actions
   const quickActions = [
     {
       icon: Calendar,
       label: 'Request Leave',
       description: 'Apply and track approval.',
-      onClick: () => alert('Request Leave clicked')
+      onClick: () => router.push('/calendar')
     },
     {
       icon: Clock,
