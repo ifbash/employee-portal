@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import Header from '@/components/layout/Header'
-import Sidebar from '@/components/layout/Sidebar'
 import Dashboard from '@/components/dashboard/Dashboard'
 import DocumentList from '@/components/documents/DocumentList'
 import PolicyGrid from '@/components/policies/PolicyGrid'
@@ -29,14 +28,12 @@ const sectionTitles = {
   helpdesk: 'Help Desk',
   appreciate: 'Appreciate',
   learning: 'Learning & Training',
-  announcements: 'Announcements',
-  // Add other title mappings as needed
+  announcements: 'Announcements'
+  // Add other mappings as needed
 }
 
 export default function Page() {
   const [currentSection, setCurrentSection] = useState('dashboard')
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
-  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   const renderSection = () => {
     switch (currentSection) {
@@ -59,28 +56,8 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
-      <Header
-        currentSection={sectionTitles[currentSection] || currentSection}
-        setMobileNavOpen={setMobileNavOpen}
-      />
-      {mobileNavOpen && (
-        <Sidebar
-          currentSection={currentSection}
-          onSectionChange={setCurrentSection}
-          collapsed={false}
-          setCollapsed={() => {}}
-          mobile
-          onClose={() => setMobileNavOpen(false)}
-        />
-      )}
-      <Sidebar
-        currentSection={currentSection}
-        onSectionChange={setCurrentSection}
-        collapsed={sidebarCollapsed}
-        setCollapsed={setSidebarCollapsed}
-        mobile={false}
-      />
-      <div className={`transition-all duration-300 pt-14 ${sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'}`}>
+      <Header currentSection={sectionTitles[currentSection] || currentSection} />
+      <div className="transition-all duration-300 pt-14">
         <main className="p-8">{renderSection()}</main>
       </div>
     </div>
